@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Apply Now | {{ site_name }}{% endblock %}
+{% block meta_description %}Apply now for training programs at {{ site_name }}. Submit your details and our admissions team will contact you.{% endblock %}
+
+{% block content %}
+
+<section class="section-padding">
+    <div class="container">
+        <div class="section-title">
+            <h1 class="fw-bold">Apply Now</h1>
+            <p>Fill in your details below and our admissions team will get in touch with you.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-8">
+                <div class="glass-card">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Full Name *</label>
+                                {{ form.full_name }}
+                                {% for error in form.full_name.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Father's Name</label>
+                                {{ form.father_name }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email *</label>
+                                {{ form.email }}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone *</label>
+                                {{ form.phone }}
+                                {% for error in form.phone.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">WhatsApp Number</label>
+                                {{ form.whatsapp_number }}
+                                {% for error in form.whatsapp_number.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">City *</label>
+                                {{ form.city }}
+                                {% for error in form.city.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Country *</label>
+                                {{ form.country }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Preferred Course</label>
+                                {{ form.course }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Course Not Listed?</label>
+                                {{ form.course_interested }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Highest Education</label>
+                                {{ form.education }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Occupation</label>
+                                {{ form.occupation }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Preferred Contact Method</label>
+                                {{ form.preferred_contact_method }}
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Message</label>
+                                {{ form.message }}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand">
+                            Submit Application
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

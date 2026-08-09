@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
+{% block page_title %}IELTS Preparation (Coming Soon) | {{ site_name }}{% endblock %}
+{% block meta_description %}IELTS preparation classes are coming soon at {{ site_name }}. Register your interest today.{% endblock %}
+
 {% block content %}
 
 <section class="section-padding bg-soft">
     <div class="container text-center">
         <h1 class="fw-bold">IELTS Preparation</h1>
         <p class="lead text-muted">
-            IELTS preparation classes will be available soon at Meridian Global Skills Institute.
+            IELTS preparation classes will be available soon at EYENEX Trainings & Consultancy.
         </p>
 
         <a href="{% url 'core:contact' %}?course=IELTS Preparation" class="btn btn-warning">

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Terms & Conditions | {{ site_name }}{% endblock %}
+{% block meta_description %}Read the Terms & Conditions for using the {{ site_name }} website and applying for courses.{% endblock %}
+
+{% block content %}
+
+<section class="section-padding bg-soft">
+    <div class="container">
+        <h1 class="fw-bold">Terms &amp; Conditions</h1>
+        <p class="text-muted">Last updated: August 2026</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="glass-card">
+            <h4>Use of This Website</h4>
+            <p>
+                By using this website, you agree to provide accurate information when submitting inquiry
+                or application forms, and to use the site for lawful purposes only.
+            </p>
+
+            <h4>Course Information</h4>
+            <p>
+                Course details, schedules, and fees displayed on this website are provided for general
+                guidance and may be updated or changed at any time. Please contact us directly to confirm
+                current course availability, schedules, and fees before making any commitments.
+            </p>
+
+            <h4>Admissions &amp; Applications</h4>
+            <p>
+                Submitting an inquiry or application form does not guarantee admission or enrollment.
+                {{ site_short_name }} will contact applicants to confirm eligibility, seat availability,
+                and next steps.
+            </p>
+
+            <h4>Intellectual Property</h4>
+            <p>
+                The content, branding, and materials on this website belong to {{ site_name }} and may not
+                be copied or reproduced without permission.
+            </p>
+
+            <h4>Limitation of Liability</h4>
+            <p>
+                While we make reasonable efforts to keep information on this website accurate and up to
+                date, {{ site_name }} is not liable for any loss or damage arising from reliance on
+                information published here.
+            </p>
+
+            <h4>Changes to These Terms</h4>
+            <p>
+                We may update these Terms &amp; Conditions from time to time. Continued use of this
+                website after changes are posted constitutes acceptance of the updated terms.
+            </p>
+
+            <h4>Contact Us</h4>
+            <p>
+                For questions about these Terms &amp; Conditions, please contact us at
+                <strong>{{ site_email }}</strong> or <strong>{{ site_phone }}</strong>.
+            </p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

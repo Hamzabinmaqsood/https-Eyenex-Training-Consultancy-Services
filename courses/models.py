@@ -1,6 +1,22 @@
 from django.db import models
 from django.utils.text import slugify
 
+from core.validators import validate_image_size
+
+
+def unique_slugify(instance, value, slug_field_name='slug'):
+    """Generate a unique slug for `instance` by appending -2, -3, ... on collision."""
+    model = instance.__class__
+    base_slug = slugify(value) or model.__name__.lower()
+    slug = base_slug
+    counter = 2
+
+    while model.objects.filter(**{slug_field_name: slug}).exclude(pk=instance.pk).exists():
+        slug = f'{base_slug}-{counter}'
+        counter += 1
+
+    return slug
+
 
 class CourseCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -12,7 +28,7 @@ class CourseCategory(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = unique_slugify(self, self.name)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -40,7 +56,9 @@ class Course(models.Model):
     duration = models.CharField(max_length=100, blank=True)
     fee = models.CharField(max_length=100, blank=True)
     level = models.CharField(max_length=20, choices=LEVEL_CHOICES, default='beginner')
-    image = models.ImageField(upload_to='courses/', blank=True, null=True)
+    image = models.ImageField(
+        upload_to='courses/', blank=True, null=True, validators=[validate_image_size]
+    )
     is_featured = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     display_order = models.PositiveIntegerField(default=0)
@@ -53,8 +71,16 @@ class Course(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = unique_slugify(self, self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
+
+    def related_courses(self):
+        if not self.category_id:
+            return Course.objects.none()
+
+        return Course.objects.filter(
+            category_id=self.category_id, is_active=True
+        ).exclude(pk=self.pk)[:3]

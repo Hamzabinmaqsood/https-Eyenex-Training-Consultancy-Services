@@ -1,11 +1,21 @@
 from django import forms
+
+from courses.models import Course
+
 from .models import Inquiry
 
 
 class InquiryForm(forms.ModelForm):
+    course = forms.ModelChoiceField(
+        queryset=Course.objects.filter(is_active=True),
+        required=False,
+        empty_label='Select a course (optional)',
+        widget=forms.Select(attrs={'class': 'form-select'}),
+    )
+
     class Meta:
         model = Inquiry
-        fields = ['full_name', 'phone', 'email', 'course_interested', 'message']
+        fields = ['full_name', 'phone', 'email', 'course', 'course_interested', 'message']
 
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your full name'}),

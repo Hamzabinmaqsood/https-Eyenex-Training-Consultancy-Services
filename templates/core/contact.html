@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block page_title %}Contact Us | {{ site_name }}{% endblock %}
+{% block meta_description %}Get in touch with {{ site_name }} for course inquiries, admissions questions, and general support.{% endblock %}
+
 {% block content %}
 
 <section class="section-padding">
@@ -16,32 +19,46 @@
 
                     {% if messages %}
                         {% for message in messages %}
-                            <div class="alert alert-success">
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %}">
                                 {{ message }}
                             </div>
                         {% endfor %}
                     {% endif %}
 
-                    <form method="POST">
+                    <form method="POST" novalidate>
                         {% csrf_token %}
 
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
                             {{ form.full_name }}
+                            {% for error in form.full_name.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Phone / WhatsApp</label>
                             {{ form.phone }}
+                            {% for error in form.phone.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             {{ form.email }}
+                            {% for error in form.email.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Course Interested</label>
+                            <label class="form-label">Course</label>
+                            {{ form.course }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Course Not Listed?</label>
                             {{ form.course_interested }}
                         </div>
 

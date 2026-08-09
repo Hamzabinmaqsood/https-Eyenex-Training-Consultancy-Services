@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block page_title %}Courses | {{ site_name }}{% endblock %}
+{% block meta_description %}Browse safety, HSE, and professional training courses offered by {{ site_name }}.{% endblock %}
+
 {% block content %}
 
 <section class="section-padding">
@@ -9,7 +12,31 @@
             Explore our professional training programs.
         </p>
 
-        <div class="row g-4 mt-4">
+        <form method="GET" class="row g-3 align-items-end mt-2 mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Search</label>
+                <input type="text" name="q" value="{{ query }}" class="form-control"
+                    placeholder="Search by course name or keyword">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Category</label>
+                <select name="category" class="form-select">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.slug }}" {% if category.slug == selected_category %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-brand w-100">Filter</button>
+            </div>
+        </form>
+
+        <div class="row g-4">
             {% for course in courses %}
                 <div class="col-md-4">
                     <div class="service-card">
@@ -35,8 +62,12 @@
                     </div>
                 </div>
             {% empty %}
-                <div class="col-12">
-                    <p>No courses added yet.</p>
+                <div class="col-12 text-center">
+                    {% if query or selected_category %}
+                        <p>No courses match your search. Try a different keyword or category.</p>
+                    {% else %}
+                        <p>No courses added yet.</p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

@@ -37,16 +37,26 @@ a {
     color: var(--dark) !important;
 }
 
-.brand-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--gold), #ffd86b);
-    color: var(--dark);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
+.brand-logo-image,
+.site-logo,
+.footer-logo-image {
+    display: block;
+    height: auto;
+    object-fit: contain;
+    max-width: 100%;
+    background: transparent;
+}
+
+.navbar .brand-logo-image,
+.navbar .site-logo {
+    width: 180px;
+    max-height: 54px;
+}
+
+.footer-logo-image {
+    width: 160px;
+    max-height: 56px;
+    margin-bottom: 8px;
 }
 
 .brand-title {
@@ -349,6 +359,11 @@ a {
     .brand-subtitle {
         display: none;
     }
+
+    .navbar .brand-logo-image {
+        width: 144px;
+        max-height: 46px;
+    }
 }
 
 @media (max-width: 575px) {
@@ -367,5 +382,28 @@ a {
 
     .footer-bottom {
         display: block;
+    }
+
+    .navbar .brand-logo-image {
+        width: 130px;
+        max-height: 42px;
+    }
+
+    .footer-logo-image {
+        width: 140px;
+    }
+}
+
+.site-logo {
+    width: 200px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .site-logo {
+        width: 155px;
     }
 }

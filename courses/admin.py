@@ -25,3 +25,5 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ('title', 'short_description', 'description')
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ('is_featured', 'is_active', 'display_order')
+    autocomplete_fields = ('category',)
+    ordering = ('display_order', 'title')

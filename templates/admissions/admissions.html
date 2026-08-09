@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Admissions | {{ site_name }}{% endblock %}
+{% block meta_description %}Learn how to apply for training programs at {{ site_name }}, from choosing a course to enrollment.{% endblock %}
+
+{% block content %}
+
+<section class="section-padding bg-soft">
+    <div class="container">
+        <div class="section-title">
+            <h1 class="fw-bold">Admissions</h1>
+            <p class="text-muted">
+                How to join a training program at {{ site_name }}.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="service-card">
+                    <div class="card-icon">01</div>
+                    <h5>Choose a Course</h5>
+                    <p>Browse our course catalogue and pick the training program that fits your goals.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="service-card">
+                    <div class="card-icon">02</div>
+                    <h5>Submit Your Application</h5>
+                    <p>Fill out the application form with your details and course preference.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="service-card">
+                    <div class="card-icon">03</div>
+                    <h5>Get Contacted</h5>
+                    <p>Our team will reach out on your preferred contact method to confirm details.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="service-card">
+                    <div class="card-icon">04</div>
+                    <h5>Start Training</h5>
+                    <p>Complete enrollment and begin your training with {{ site_short_name }}.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{% url 'admissions:apply' %}" class="btn btn-brand btn-lg">
+                Apply Now
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold">Have Questions First?</h2>
+                <p>
+                    If you would like to speak with our team before applying, you can reach out
+                    directly and we will guide you through course options and the application process.
+                </p>
+
+                <a href="{% url 'core:contact' %}" class="btn btn-dark">
+                    Contact Us
+                </a>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="highlight-box">
+                    <h4>Need Course Details?</h4>
+                    <p>
+                        Explore our full range of training programs before applying.
+                    </p>
+
+                    <a href="{% url 'courses:course_list' %}" class="btn btn-dark">
+                        View Courses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

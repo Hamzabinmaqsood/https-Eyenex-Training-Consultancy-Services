@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
+{% block page_title %}About Us | {{ site_name }}{% endblock %}
+{% block meta_description %}Learn about {{ site_name }}, our mission, vision, and focus on practical safety, HSE, and career-focused training.{% endblock %}
+
 {% block content %}
 
 <section class="section-padding bg-soft">
     <div class="container">
-        <h1 class="fw-bold">About Meridian Global Skills Institute</h1>
+        <h1 class="fw-bold">About EYENEX Trainings & Consultancy</h1>
         <p class="lead text-muted">
-            A professional training institute focused on safety, workplace skills, career development, and global learning opportunities.
+            A professional training institute focused on safety, workplace skills, career development, and global
+            learning opportunities.
         </p>
     </div>
 </section>
@@ -17,7 +21,7 @@
             <div class="col-lg-6">
                 <h2 class="fw-bold">Who We Are</h2>
                 <p>
-                    Meridian Global Skills Institute provides practical training for learners who want to build
+                    EYENEX Trainings & Consultancy provides practical training for learners who want to build
                     career-ready skills in safety, HSE, exam preparation, and professional development.
                 </p>
                 <p>
@@ -83,7 +87,7 @@
             Contact us to learn more about available courses, admissions, and upcoming programs.
         </p>
 
-        <a href="{% url 'core:contact' %}" class="btn btn-warning">
+        <a href="{% url 'admissions:apply' %}" class="btn btn-warning">
             Apply Now
         </a>
     </div>
