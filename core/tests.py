@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from courses.models import Course, CourseCategory
 from inquiries.models import Inquiry
 
 
@@ -25,6 +26,59 @@ class StaticPageTests(TestCase):
         for url_name in ['core:ielts', 'core:study_abroad', 'core:leadership']:
             response = self.client.get(reverse(url_name))
             self.assertEqual(response.status_code, 200)
+
+
+class HomepageFeaturedCoursesTests(TestCase):
+    def test_section_is_hidden_without_featured_courses(self):
+        response = self.client.get(reverse('core:home'))
+
+        self.assertNotContains(response, 'Featured Courses')
+        self.assertNotContains(response, 'Featured courses will be added soon.')
+
+    def test_only_three_active_featured_courses_are_displayed_in_order(self):
+        category = CourseCategory.objects.create(name='Workplace Safety')
+        courses = []
+        for index in range(4):
+            courses.append(Course.objects.create(
+                category=category,
+                title=f'Featured Course {index}',
+                short_description=f'Featured description {index}',
+                description='Course details.',
+                is_active=True,
+                is_featured=True,
+                display_order=4 - index,
+            ))
+        Course.objects.create(
+            title='Inactive Featured Course',
+            short_description='Should not appear.',
+            description='Course details.',
+            is_active=False,
+            is_featured=True,
+        )
+        Course.objects.create(
+            title='Active Unfeatured Course',
+            short_description='Should not appear.',
+            description='Course details.',
+            is_active=True,
+            is_featured=False,
+        )
+
+        response = self.client.get(reverse('core:home'))
+        content = response.content.decode()
+
+        self.assertContains(response, 'Featured Courses')
+        self.assertContains(response, 'Explore All Courses', count=1)
+        self.assertNotContains(response, 'Featured Course 0')
+        self.assertNotContains(response, 'Inactive Featured Course')
+        self.assertNotContains(response, 'Active Unfeatured Course')
+        expected_titles = ['Featured Course 3', 'Featured Course 2', 'Featured Course 1']
+        positions = [content.index(title) for title in expected_titles]
+        self.assertEqual(positions, sorted(positions))
+        for course in courses[1:]:
+            self.assertContains(
+                response,
+                reverse('courses:course_detail', args=[course.slug]),
+            )
 
 
 class ContactInquiryTests(TestCase):

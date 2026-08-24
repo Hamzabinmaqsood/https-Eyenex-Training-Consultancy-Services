@@ -5,8 +5,9 @@ from .models import CourseCategory, Course
 @admin.register(CourseCategory)
 class CourseCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
-    search_fields = ('name',)
+    search_fields = ('name', 'description')
     prepopulated_fields = {'slug': ('name',)}
+    ordering = ('name',)
 
 
 @admin.register(Course)
@@ -27,3 +28,19 @@ class CourseAdmin(admin.ModelAdmin):
     list_editable = ('is_featured', 'is_active', 'display_order')
     autocomplete_fields = ('category',)
     ordering = ('display_order', 'title')
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('category', 'title', 'slug', 'short_description', 'description'),
+        }),
+        ('Course Information', {
+            'fields': ('duration', 'fee', 'level', 'image'),
+        }),
+        ('Publishing', {
+            'fields': ('is_featured', 'is_active', 'display_order'),
+        }),
+        ('System Information', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',),
+        }),
+    )

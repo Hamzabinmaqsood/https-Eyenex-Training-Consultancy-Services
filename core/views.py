@@ -11,7 +11,12 @@ from faqs.models import FAQ
 DUPLICATE_SUBMISSION_WINDOW_SECONDS = 60
 
 def home(request):
-    featured_courses = Course.objects.filter(is_active=True, is_featured=True)[:3]
+    featured_courses = (
+        Course.objects
+        .filter(is_active=True, is_featured=True)
+        .select_related('category')
+        .order_by('display_order', '-created_at')[:3]
+    )
     testimonials = Testimonial.objects.filter(is_active=True)[:3]
     faqs = FAQ.objects.filter(is_active=True)[:6]
 
