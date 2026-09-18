@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block page_title %}Study Abroad Guidance | {{ site_name }}{% endblock %}
+{% block meta_description %}Study abroad admissions guidance is planned at {{ site_name }}. Register your interest for future updates.{% endblock %}
+{% block content %}
+<section class="page-hero program-hero"><div class="container"><span class="eyebrow">Planned program</span><h1>Study Abroad Guidance</h1><p>Support for university shortlisting, application planning and education pathways is planned for a future launch.</p><a href="{% url 'core:contact' %}?course=Study Abroad Guidance" class="btn btn-brand mt-3">Register Interest</a></div></section>
+<section class="section-padding"><div class="container"><header class="section-heading centered"><div><span class="eyebrow">Planned support</span><h2>Guidance across the application journey</h2></div></header><div class="skill-grid skill-grid--3"><article><span>01</span><h3>University Shortlisting</h3><p>Guidance for selecting suitable countries, universities and programs.</p></article><article><span>02</span><h3>Application Support</h3><p>Support for admissions documents, timelines and application planning.</p></article><article><span>03</span><h3>Career Pathway Advice</h3><p>Practical guidance for aligning study plans with career goals.</p></article></div></div></section>
+{% endblock %}

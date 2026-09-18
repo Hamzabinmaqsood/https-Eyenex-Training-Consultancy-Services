@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block page_title %}{{ course.title }} | {{ site_name }}{% endblock %}
+{% block meta_description %}{{ course.short_description }}{% endblock %}
+
+{% block content %}
+<section class="course-detail-hero">
+    <div class="container">
+        <nav class="breadcrumb-line" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span>›</span><a href="{% url 'courses:course_list' %}">Courses</a><span>›</span><span aria-current="page">{{ course.title }}</span></nav>
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-7">
+                {% if course.category %}<span class="eyebrow">{{ course.category.name }}</span>{% endif %}
+                <h1>{{ course.title }}</h1>
+                <p class="course-detail-hero__lead">{{ course.short_description }}</p>
+                <div class="course-fact-pills">
+                    {% if course.duration %}<span><small>Duration</small><strong>{{ course.duration }}</strong></span>{% endif %}
+                    <span><small>Mode</small><strong>{{ course.get_delivery_mode_display }}</strong></span>
+                    <span><small>Level</small><strong>{{ course.get_level_display }}</strong></span>
+                </div>
+                <div class="course-detail-hero__actions">
+                    <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand btn-lg">Book Appointment</a>
+                    <a href="{% url 'admissions:apply' %}?course={{ course.slug }}" class="btn btn-outline-light btn-lg">Apply for Course</a>
+                </div>
+            </div>
+            {% if course.image %}<div class="col-lg-5"><div class="course-detail-hero__image"><img src="{{ course.image.url }}" alt="{{ course.title }}"></div></div>{% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-8">
+                <article class="content-panel course-description">
+                    <span class="eyebrow">Course overview</span>
+                    <h2>About this course</h2>
+                    <div class="prose">{{ course.description|linebreaks }}</div>
+                </article>
+
+                <div class="path-choice">
+                    <div><span class="path-choice__number">01</span><h3>Need guidance first?</h3><p>Book an appointment to discuss the course, your goals and next steps.</p><a href="{% url 'admissions:course_appointment' course.slug %}" class="text-link">Book appointment →</a></div>
+                    <div><span class="path-choice__number">02</span><h3>Ready to enroll?</h3><p>Submit the application directly and the admissions team will contact you.</p><a href="{% url 'admissions:apply' %}?course={{ course.slug }}" class="text-link">Apply now →</a></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <aside class="enrollment-card">
+                    <span class="enrollment-card__label">Course information</span>
+                    {% if course.fee %}<div class="enrollment-card__price"><small>Course fee</small><strong>{{ course.fee_display }}</strong></div>{% endif %}
+                    <dl>
+                        {% if course.duration %}<div><dt>Duration</dt><dd>{{ course.duration }}</dd></div>{% endif %}
+                        <div><dt>Learning mode</dt><dd>{{ course.get_delivery_mode_display }}</dd></div>
+                        <div><dt>Level</dt><dd>{{ course.get_level_display }}</dd></div>
+                        <div><dt>Appointment fee</dt><dd>{% if course.appointment_fee > 0 %}{{ course.appointment_fee_display }}{% else %}Currently free{% endif %}</dd></div>
+                    </dl>
+                    {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note">Course fee includes the applicable official test/exam fee.</p>{% endif %}
+                    <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand w-100">Book Appointment</a>
+                    <a href="{% url 'admissions:apply' %}?course={{ course.slug }}" class="btn btn-outline-dark w-100 mt-2">Apply for this Course</a>
+                    <p class="enrollment-card__help">Have a question before deciding? <a href="{% url 'core:contact' %}?course={{ course.title|urlencode }}">Contact us</a>.</p>
+                </aside>
+            </div>
+        </div>
+
+        {% if related_courses %}
+        <section class="related-courses" aria-labelledby="related-title">
+            <header class="section-heading"><div><span class="eyebrow">Keep exploring</span><h2 id="related-title">Related courses</h2></div></header>
+            <div class="related-course-grid">
+                {% for related in related_courses %}
+                <article class="related-course-card">
+                    <span>{% if related.category %}{{ related.category.name }}{% else %}Training{% endif %}</span>
+                    <h3><a href="{% url 'courses:course_detail' related.slug %}">{{ related.title }}</a></h3>
+                    <p>{{ related.short_description }}</p>
+                    <a href="{% url 'courses:course_detail' related.slug %}" class="text-link">View course →</a>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

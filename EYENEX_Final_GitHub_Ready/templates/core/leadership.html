@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block page_title %}Leadership Training | {{ site_name }}{% endblock %}
+{% block meta_description %}Professional leadership training is planned at {{ site_name }}. Register your interest for future updates.{% endblock %}
+{% block content %}
+<section class="page-hero program-hero"><div class="container"><span class="eyebrow">Planned program</span><h1>Leadership Training</h1><p>Professional leadership and workplace-skills training is planned for a future launch.</p><a href="{% url 'core:contact' %}?course=Leadership Training" class="btn btn-brand mt-3">Register Interest</a></div></section>
+<section class="section-padding"><div class="container"><header class="section-heading centered"><div><span class="eyebrow">Planned focus areas</span><h2>Skills for stronger workplace leadership</h2></div></header><div class="skill-grid skill-grid--3"><article><span>01</span><h3>Communication Skills</h3><p>Develop clearer professional communication, presentation and confidence.</p></article><article><span>02</span><h3>Team Leadership</h3><p>Learn practical habits for leading people and workplace teams.</p></article><article><span>03</span><h3>Professional Growth</h3><p>Strengthen planning, decision-making and career readiness.</p></article></div></div></section>
+{% endblock %}

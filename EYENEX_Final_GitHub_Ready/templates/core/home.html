@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}{{ site_name }} | Safety, HSE & Career Training{% endblock %}
+{% block meta_description %}{{ site_name }} offers practical safety officer training, HSE guidance, IELTS preparation, and career-focused programs in physical and online formats.{% endblock %}
+{% block extra_head %}<link rel="preload" as="image" href="{% static 'images/hero/eyenex-hero-01-classroom.webp' %}" fetchpriority="high">{% endblock %}
+
+{% block content %}
+<section class="eyenex-hero" aria-labelledby="hero-title">
+    <div class="hero-slides" aria-hidden="true">
+        <div class="hero-slide active"><img src="{% static 'images/hero/eyenex-hero-01-classroom.webp' %}" alt="" fetchpriority="high"></div>
+    </div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="container hero-container">
+        <div class="hero-content">
+            <p class="hero-eyebrow"><span></span>Professional Training &amp; Consultancy</p>
+            <h1 id="hero-title" class="hero-heading">Build safer workplaces.<br><span>Build stronger careers.</span></h1>
+            <p class="hero-intro">Practical, career-focused training for students and professionals—delivered through physical and online learning options with clear guidance from inquiry to enrollment.</p>
+            <div class="hero-actions">
+                <a href="{% url 'courses:course_list' %}" class="btn btn-brand hero-primary">Explore Courses <span aria-hidden="true">→</span></a>
+                <a href="{% url 'admissions:apply' %}" class="btn hero-secondary">Apply Now</a>
+            </div>
+            <ul class="hero-trust" aria-label="Training highlights">
+                <li>NEBOSH IGC</li><li>IOSH &amp; OSHA</li><li>IELTS Preparation</li><li>Physical &amp; Online</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="trust-strip" aria-label="Why learners choose EYENEX">
+    <div class="container">
+        <div class="trust-strip__grid">
+            <div><strong>Practical learning</strong><span>Skills built around real workplace needs.</span></div>
+            <div><strong>Clear course guidance</strong><span>Understand fees, mode and duration before applying.</span></div>
+            <div><strong>Flexible access</strong><span>Physical and online options across key programs.</span></div>
+            <div><strong>Student support</strong><span>Appointment and financial-aid request pathways.</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="training-areas section-padding section-surface" aria-labelledby="training-title">
+    <div class="container">
+        <header class="section-heading">
+            <div><span class="eyebrow">Core training</span><h2 id="training-title">Explore our main training areas</h2></div>
+            <p>Start with the program that matches your goal. Every course page shows delivery mode, duration, fee information and a direct appointment option.</p>
+        </header>
+        <div class="training-grid">
+            {% for course in main_training_courses %}
+            <article class="training-card">
+                <span class="training-card__number">0{{ forloop.counter }}</span>
+                <span class="training-card__category">{% if course.category %}{{ course.category.name }}{% else %}Professional Training{% endif %}</span>
+                <h3>{{ course.title }}</h3>
+                <p>{{ course.short_description }}</p>
+                <div class="training-card__meta">
+                    {% if course.duration %}<span>{{ course.duration }}</span>{% endif %}
+                    <span>{{ course.get_delivery_mode_display }}</span>
+                </div>
+                <div class="training-card__actions">
+                    <a href="{% url 'courses:course_detail' course.slug %}" class="text-link">View details <span aria-hidden="true">→</span></a>
+                    <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand btn-sm">Book Appointment</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        <div class="section-end-cta"><a href="{% url 'courses:course_list' %}" class="btn btn-outline-dark">View all courses</a></div>
+    </div>
+</section>
+
+{% if featured_courses %}
+<section class="featured-courses section-padding" aria-labelledby="featured-courses-title">
+    <div class="container">
+        <header class="section-heading centered">
+            <div><span class="eyebrow">Popular choices</span><h2 id="featured-courses-title">Featured Courses</h2></div>
+            <p>Quickly compare our highlighted programs before opening the full course details.</p>
+        </header>
+        <div class="featured-courses__grid">
+            {% for course in featured_courses %}
+            <article class="featured-course-card">
+                {% if course.image %}<div class="featured-course-card__media"><img src="{{ course.image.url }}" alt="{{ course.title }}" loading="lazy" decoding="async"></div>{% endif %}
+                <div class="featured-course-card__body">
+                    {% if course.category %}<span class="featured-course-card__category">{{ course.category.name }}</span>{% endif %}
+                    <h3>{{ course.title }}</h3>
+                    <p class="featured-course-card__description">{{ course.short_description }}</p>
+                    <dl class="featured-course-card__meta">
+                        {% if course.duration %}<div><dt>Duration</dt><dd>{{ course.duration }}</dd></div>{% endif %}
+                        <div><dt>Mode</dt><dd>{{ course.get_delivery_mode_display }}</dd></div>
+                        {% if course.fee %}<div><dt>Fee</dt><dd>{{ course.fee_display }}</dd></div>{% endif %}
+                    </dl>
+                    {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
+                    <div class="featured-course-card__actions">
+                        <a href="{% url 'courses:course_detail' course.slug %}" class="text-link">View details <span aria-hidden="true">→</span></a>
+                        <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand btn-sm">Book Appointment</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        <div class="section-end-cta"><a href="{% url 'courses:course_list' %}" class="btn btn-outline-dark">Explore All Courses</a></div>
+    </div>
+</section>
+{% endif %}
+
+<section class="journey-section section-padding section-dark" aria-labelledby="journey-title">
+    <div class="container">
+        <header class="section-heading section-heading--light">
+            <div><span class="eyebrow">Simple process</span><h2 id="journey-title">From interest to enrollment</h2></div>
+            <p>Choose the path that suits you: ask questions first, book a course appointment, or apply directly.</p>
+        </header>
+        <div class="journey-grid">
+            <article><span>01</span><h3>Explore</h3><p>Compare courses, delivery modes, duration and fees.</p></article>
+            <article><span>02</span><h3>Discuss</h3><p>Book an appointment if you want guidance before enrolling.</p></article>
+            <article><span>03</span><h3>Apply</h3><p>Submit your application and the admissions team will follow up.</p></article>
+        </div>
+    </div>
+</section>
+
+<section class="why-eyenex section-padding" aria-labelledby="why-eyenex-title">
+    <div class="container">
+        <div class="why-eyenex__layout">
+            <div class="why-eyenex__content">
+                <header class="why-eyenex__header">
+                    <p class="why-eyenex__eyebrow"><span aria-hidden="true"></span>Why EYENEX</p>
+                    <h2 id="why-eyenex-title">Learning designed around practical outcomes</h2>
+                    <p>Our approach combines structured preparation, workplace relevance and clear student support so learners can make confident training decisions.</p>
+                </header>
+                <div class="why-eyenex__values">
+                    <article class="why-value-card"><span class="why-value-card__number">01</span><div><h3>Practical, career-focused learning</h3><p>Training connects concepts with real professional situations.</p></div></article>
+                    <article class="why-value-card"><span class="why-value-card__number">02</span><div><h3>Structured preparation</h3><p>Clear guidance supports revision, understanding and exam readiness.</p></div></article>
+                    <article class="why-value-card"><span class="why-value-card__number">03</span><div><h3>Professional support</h3><p>Get direction on training choices, preparation and next steps.</p></div></article>
+                    <article class="why-value-card"><span class="why-value-card__number">04</span><div><h3>Flexible delivery</h3><p>Physical and online options make key programs easier to access.</p></div></article>
+                </div>
+            </div>
+            <aside class="why-eyenex__panel" aria-labelledby="why-panel-title">
+                <div class="why-eyenex__panel-content">
+                    <p class="why-eyenex__panel-label">Need help choosing?</p>
+                    <h3 id="why-panel-title">Talk to us before you decide.</h3>
+                    <p>If you are unsure which course is right for your goals, send an inquiry or explore the complete catalogue first.</p>
+                    <div class="why-eyenex__actions">
+                        <a href="{% url 'core:contact' %}" class="why-eyenex__primary">Contact the team <span aria-hidden="true">→</span></a>
+                        <a href="{% url 'courses:course_list' %}" class="why-eyenex__secondary">Explore courses <span aria-hidden="true">→</span></a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+{% if testimonials %}
+<section class="section-padding section-surface" aria-labelledby="testimonials-title">
+    <div class="container">
+        <header class="section-heading centered"><div><span class="eyebrow">Learner feedback</span><h2 id="testimonials-title">What students say</h2></div><p>Feedback from learners and training participants.</p></header>
+        <div class="testimonial-grid">
+            {% for testimonial in testimonials %}
+            <article class="testimonial-card">
+                <div class="testimonial-card__stars" aria-label="{{ testimonial.rating }} out of 5 stars">{% for i in "12345" %}{% if forloop.counter <= testimonial.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+                <blockquote>“{{ testimonial.message }}”</blockquote>
+                <div class="testimonial-card__person">
+                    {% if testimonial.image %}<img src="{{ testimonial.image.url }}" alt="" width="48" height="48" loading="lazy">{% endif %}
+                    <div><strong>{{ testimonial.name }}</strong>{% if testimonial.role %}<span>{{ testimonial.role }}</span>{% endif %}</div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if faqs %}
+<section class="section-padding" aria-labelledby="home-faq-title">
+    <div class="container">
+        <header class="section-heading centered"><div><span class="eyebrow">Good to know</span><h2 id="home-faq-title">Frequently asked questions</h2></div><p>Common questions about admissions and training.</p></header>
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="heading{{ faq.id }}"><button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ faq.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ faq.id }}">{{ faq.question }}</button></h3>
+                <div id="collapse{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#faqAccordion"><div class="accordion-body">{{ faq.answer|linebreaks }}</div></div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-end-cta"><a href="{% url 'faqs:faq_list' %}" class="btn btn-outline-dark">View all FAQs</a></div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

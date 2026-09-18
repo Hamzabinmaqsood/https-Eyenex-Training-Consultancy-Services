@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Book Appointment - {{ course.title }} | {{ site_name }}{% endblock %}
+{% block meta_description %}Request an appointment for {{ course.title }} at {{ site_name }}.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--appointment">
+    <div class="container">
+        <nav class="breadcrumb-line breadcrumb-line--light" aria-label="Breadcrumb"><a href="{% url 'courses:course_list' %}">Courses</a><span>›</span><a href="{% url 'courses:course_detail' course.slug %}">{{ course.title }}</a><span>›</span><span aria-current="page">Appointment</span></nav>
+        <span class="eyebrow eyebrow--light">Course appointment</span>
+        <h1>Book an Appointment for {{ course.title }}</h1>
+        <p>Choose your preferred time, provide your contact details and complete the appointment-fee step if required.</p>
+    </div>
+</section>
+
+<section class="section-padding appointment-page">
+    <div class="container">
+        <div class="appointment-layout">
+            <aside class="appointment-summary-v2">
+                {% if course.image %}<img src="{{ course.image.url }}" class="appointment-summary-v2__image" alt="{{ course.title }}">{% endif %}
+                <span class="appointment-summary-v2__label">Your selected course</span>
+                <h2>{{ course.title }}</h2>
+                <dl>
+                    {% if course.duration %}<div><dt>Duration</dt><dd>{{ course.duration }}</dd></div>{% endif %}
+                    <div><dt>Mode</dt><dd>{{ course.get_delivery_mode_display }}</dd></div>
+                    {% if course.fee %}<div><dt>Course fee</dt><dd>{{ course.fee_display }}</dd></div>{% endif %}
+                    <div class="appointment-fee-highlight"><dt>Appointment fee</dt><dd>{% if course.appointment_fee > 0 %}{{ course.appointment_fee_display }}{% else %}Currently free{% endif %}</dd></div>
+                </dl>
+                {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
+                <div class="summary-reassurance"><strong>Before you submit</strong><p>The appointment fee shown here is saved with your request. If payment is difficult, you can request financial aid in the form.</p></div>
+            </aside>
+
+            <div class="appointment-form-shell">
+                <div class="form-progress" aria-label="Appointment form sections"><span class="active">1. Details</span><span>2. Schedule</span><span>3. Payment</span></div>
+
+                {% if messages %}{% for message in messages %}<div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %}" role="status">{{ message }}</div>{% endfor %}{% endif %}
+                {% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}</div>{% endif %}
+
+                <form method="POST" enctype="multipart/form-data" novalidate id="appointment-form" class="structured-form">
+                    {% csrf_token %}
+
+                    <fieldset class="form-section">
+                        <legend><span>01</span><div>Your details<small>How we can contact you about the appointment.</small></div></legend>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label" for="{{ form.full_name.id_for_label }}">Full name <span>*</span></label>{{ form.full_name }}{% for error in form.full_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.email.id_for_label }}">Email <span>*</span></label>{{ form.email }}{% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.phone.id_for_label }}">Phone <span>*</span></label>{{ form.phone }}{% for error in form.phone.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.whatsapp_number.id_for_label }}">WhatsApp number</label>{{ form.whatsapp_number }}{% for error in form.whatsapp_number.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.city.id_for_label }}">City <span>*</span></label>{{ form.city }}{% for error in form.city.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section">
+                        <legend><span>02</span><div>Preferred appointment<small>Choose a date and time that works for you.</small></div></legend>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label" for="{{ form.preferred_date.id_for_label }}">Preferred date <span>*</span></label>{{ form.preferred_date }}{% for error in form.preferred_date.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.preferred_time.id_for_label }}">Preferred time <span>*</span></label>{{ form.preferred_time }}{% for error in form.preferred_time.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section">
+                        <legend><span>03</span><div>Appointment fee &amp; payment<small>Pay the current fee or request financial aid.</small></div></legend>
+
+                        {% if course.appointment_fee > 0 %}
+                        <div id="payment-instructions-wrap" class="payment-card" role="note">
+                            <div class="payment-card__top"><div><span>EasyPaisa payment</span><strong>{{ course.appointment_fee_display }}</strong></div><span class="status-chip">Payment required</span></div>
+                            <div class="payment-card__account">
+                                <div><small>EasyPaisa number</small><strong id="easypaisa-number">{{ easypaisa_number }}</strong></div>
+                                <button class="copy-button" type="button" data-copy-target="#easypaisa-number">Copy number</button>
+                            </div>
+                            <div class="payment-card__account"><div><small>Account name</small><strong>{{ easypaisa_account_name }}</strong></div></div>
+                            <p>Send the exact appointment fee, then upload one clear screenshot of the successful payment below.</p>
+                        </div>
+                        {% else %}
+                        <div class="payment-card payment-card--free"><div class="payment-card__top"><div><span>Appointment fee</span><strong>Currently free</strong></div><span class="status-chip">No payment needed</span></div><p>You can submit your appointment request without a payment screenshot.</p></div>
+                        {% endif %}
+
+                        <div class="aid-option">
+                            <div class="form-check form-switch appointment-aid-switch">{{ form.financial_aid_requested }}<label class="form-check-label" for="{{ form.financial_aid_requested.id_for_label }}"><strong>I need financial aid for the appointment fee</strong><span>Select this if paying the appointment fee is difficult for you.</span></label></div>
+                        </div>
+
+                        <div id="financial-aid-reason-wrap" class="field-block">
+                            <label class="form-label" for="{{ form.financial_aid_reason.id_for_label }}">Reason for financial aid <span>*</span></label>{{ form.financial_aid_reason }}<div class="form-text">Briefly explain why you need assistance with the appointment fee.</div>{% for error in form.financial_aid_reason.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                        </div>
+
+                        <div id="payment-screenshot-wrap" class="field-block">
+                            <label class="form-label" for="{{ form.payment_screenshot.id_for_label }}">Payment screenshot{% if course.appointment_fee > 0 %} <span>*</span>{% endif %}</label>{{ form.payment_screenshot }}<div class="form-text">PNG, JPG/JPEG or WebP · maximum 5 MB.</div>{% for error in form.payment_screenshot.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section form-section--last">
+                        <legend><span>04</span><div>Anything else?<small>Optional information that may help us prepare.</small></div></legend>
+                        <label class="form-label" for="{{ form.message.id_for_label }}">Additional message</label>{{ form.message }}{% for error in form.message.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                    </fieldset>
+
+                    <div class="form-submit-row">
+                        <p>By submitting, you confirm that the information provided is accurate.</p>
+                        <button type="submit" class="btn btn-brand btn-lg">Submit Appointment Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+    const aidCheckbox = document.getElementById('{{ form.financial_aid_requested.id_for_label }}');
+    const aidWrap = document.getElementById('financial-aid-reason-wrap');
+    const paymentWrap = document.getElementById('payment-screenshot-wrap');
+    const paymentInstructionsWrap = document.getElementById('payment-instructions-wrap');
+    function syncAppointmentPaymentFields() {
+        const needsAid = aidCheckbox && aidCheckbox.checked;
+        if (aidWrap) aidWrap.hidden = !needsAid;
+        if (paymentWrap) paymentWrap.hidden = needsAid;
+        if (paymentInstructionsWrap) paymentInstructionsWrap.hidden = needsAid;
+    }
+    if (aidCheckbox) { aidCheckbox.addEventListener('change', syncAppointmentPaymentFields); syncAppointmentPaymentFields(); }
+    document.querySelectorAll('[data-copy-target]').forEach(function (button) {
+        button.addEventListener('click', async function () {
+            const target = document.querySelector(button.dataset.copyTarget);
+            if (!target) return;
+            try { await navigator.clipboard.writeText(target.textContent.trim()); button.textContent = 'Copied'; setTimeout(function(){ button.textContent = 'Copy number'; }, 1600); } catch (e) { target.focus && target.focus(); }
+        });
+    });
+})();
+</script>
+{% endblock %}

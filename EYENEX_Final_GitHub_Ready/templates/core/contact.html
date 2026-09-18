@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Contact Us | {{ site_name }}{% endblock %}
+{% block meta_description %}Get in touch with {{ site_name }} for course inquiries, admissions questions, and general support.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--compact">
+    <div class="container">
+        <span class="eyebrow">Contact EYENEX</span>
+        <h1>Questions about a course? Start here.</h1>
+        <p>Send an inquiry, call us, email us or use WhatsApp. We’ll use your message to guide you toward the relevant course or admissions step.</p>
+    </div>
+</section>
+
+<section class="section-padding contact-page">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-7">
+                <div class="form-card-v2">
+                    <div class="form-card-v2__heading"><span class="eyebrow">Send an inquiry</span><h2>Tell us what you need help with.</h2><p>Choose a course if you already know it, or describe what you’re looking for.</p></div>
+                    {% if messages %}{% for message in messages %}<div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %}" role="status">{{ message }}</div>{% endfor %}{% endif %}
+                    <form method="POST" novalidate class="structured-form compact-form">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label" for="{{ form.full_name.id_for_label }}">Full name</label>{{ form.full_name }}{% for error in form.full_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.phone.id_for_label }}">Phone / WhatsApp</label>{{ form.phone }}{% for error in form.phone.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-12"><label class="form-label" for="{{ form.email.id_for_label }}">Email</label>{{ form.email }}{% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.course.id_for_label }}">Course</label>{{ form.course }}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.course_interested.id_for_label }}">Course not listed?</label>{{ form.course_interested }}</div>
+                            <div class="col-12"><label class="form-label" for="{{ form.message.id_for_label }}">Message</label>{{ form.message }}</div>
+                        </div>
+                        <button type="submit" class="btn btn-brand btn-lg mt-4">Submit Inquiry</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <aside class="contact-panel">
+                    <span class="eyebrow eyebrow--light">Direct contact</span>
+                    <h2>Prefer to speak directly?</h2>
+                    <p>Use the option that is most convenient for you.</p>
+                    <div class="contact-methods">
+                        <a href="tel:{{ site_phone|cut:' ' }}"><span>Phone / WhatsApp</span><strong>{{ site_phone }}</strong></a>
+                        <a href="mailto:{{ site_email }}"><span>Email</span><strong>{{ site_email }}</strong></a>
+                        <div><span>Location</span><strong>{{ site_address }}</strong></div>
+                    </div>
+                    <a href="{{ site_whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-brand w-100">Chat on WhatsApp</a>
+                </aside>
+                <div class="contact-note"><strong>Looking for course details?</strong><p>Browse the catalogue first to compare fees, duration and delivery mode before contacting us.</p><a href="{% url 'courses:course_list' %}" class="text-link">Explore courses →</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

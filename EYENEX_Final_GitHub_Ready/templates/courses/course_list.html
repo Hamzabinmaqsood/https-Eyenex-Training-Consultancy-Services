@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Courses | {{ site_name }}{% endblock %}
+{% block meta_description %}Browse safety, HSE, English, IELTS, and professional training courses offered by {{ site_name }}.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--compact">
+    <div class="container">
+        <span class="eyebrow">Training catalogue</span>
+        <h1>Find the course that fits your next step.</h1>
+        <p>Compare course duration, learning mode and fees, then view full details or book an appointment for guidance.</p>
+    </div>
+</section>
+
+<section class="section-padding course-catalogue">
+    <div class="container">
+        <form method="GET" class="filter-panel" aria-label="Filter courses">
+            <div class="filter-panel__field filter-panel__field--wide">
+                <label class="form-label" for="course-search">Search courses</label>
+                <input id="course-search" type="search" name="q" value="{{ query }}" class="form-control" placeholder="e.g. NEBOSH, IELTS, safety">
+            </div>
+            <div class="filter-panel__field">
+                <label class="form-label" for="course-category">Category</label>
+                <select id="course-category" name="category" class="form-select">
+                    <option value="">All categories</option>
+                    {% for category in categories %}<option value="{{ category.slug }}" {% if category.slug == selected_category %}selected{% endif %}>{{ category.name }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="filter-panel__actions">
+                <button type="submit" class="btn btn-brand">Apply filters</button>
+                {% if query or selected_category %}<a href="{% url 'courses:course_list' %}" class="btn btn-quiet">Clear</a>{% endif %}
+            </div>
+        </form>
+
+        <div class="catalogue-toolbar">
+            <p class="mb-0"><strong>{{ courses|length }}</strong> course{{ courses|length|pluralize }} available</p>
+            <span>Physical &amp; online options available</span>
+        </div>
+
+        <div class="course-grid">
+            {% for course in courses %}
+            <article class="course-card-v2">
+                {% if course.image %}<a class="course-card-v2__media" href="{% url 'courses:course_detail' course.slug %}" tabindex="-1" aria-hidden="true"><img src="{{ course.image.url }}" alt="" loading="lazy" decoding="async"></a>{% endif %}
+                <div class="course-card-v2__body">
+                    <div class="course-card-v2__topline">
+                        {% if course.category %}<span class="course-card__category">{{ course.category.name }}</span>{% endif %}
+                        {% if course.fee %}<strong class="course-card-v2__price">{{ course.fee_display }}</strong>{% endif %}
+                    </div>
+                    <h2><a href="{% url 'courses:course_detail' course.slug %}">{{ course.title }}</a></h2>
+                    <p>{{ course.short_description }}</p>
+                    <dl class="course-card-v2__facts">
+                        {% if course.duration %}<div><dt>Duration</dt><dd>{{ course.duration }}</dd></div>{% endif %}
+                        <div><dt>Mode</dt><dd>{{ course.get_delivery_mode_display }}</dd></div>
+                        <div><dt>Level</dt><dd>{{ course.get_level_display }}</dd></div>
+                    </dl>
+                    {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
+                    <div class="course-card-v2__actions">
+                        <a href="{% url 'courses:course_detail' course.slug %}" class="btn btn-outline-dark">View details</a>
+                        <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand">Book Appointment</a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <h2>No matching courses found</h2>
+                <p>Try a different keyword or reset the category filter.</p>
+                <a href="{% url 'courses:course_list' %}" class="btn btn-brand">View all courses</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="decision-cta">
+            <div><span class="eyebrow">Not sure what to choose?</span><h2>Tell us your goal and we’ll help you find the right path.</h2></div>
+            <a href="{% url 'core:contact' %}" class="btn btn-brand">Ask for guidance</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

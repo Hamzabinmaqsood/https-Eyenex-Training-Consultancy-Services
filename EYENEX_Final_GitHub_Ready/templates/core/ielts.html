@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block page_title %}IELTS Preparation | {{ site_name }}{% endblock %}
+{% block meta_description %}IELTS preparation classes at {{ site_name }} with listening, reading, writing, and speaking practice.{% endblock %}
+
+{% block content %}
+<section class="page-hero program-hero">
+    <div class="container">
+        <span class="eyebrow">English language preparation</span>
+        <h1>IELTS Preparation</h1>
+        <p>Structured practice across Listening, Reading, Writing and Speaking with a clear path from preparation to test readiness.</p>
+        {% if course %}
+        <div class="program-facts">
+            <span><small>Mode</small><strong>{{ course.get_delivery_mode_display }}</strong></span>
+            {% if course.fee %}<span><small>Fee</small><strong>{{ course.fee_display }}</strong></span>{% endif %}
+            {% if course.duration %}<span><small>Duration</small><strong>{{ course.duration }}</strong></span>{% endif %}
+        </div>
+        <div class="hero-actions mt-4"><a href="{% url 'courses:course_detail' course.slug %}" class="btn btn-outline-light">View Course Details</a><a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand">Book Appointment</a></div>
+        {% else %}<a href="{% url 'core:contact' %}?course=IELTS Preparation" class="btn btn-brand mt-3">Register Interest</a>{% endif %}
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <header class="section-heading centered"><div><span class="eyebrow">Four skills</span><h2>Prepare across every IELTS component</h2></div><p>Build confidence through focused practice in each part of the exam.</p></header>
+        <div class="skill-grid">
+            <article><span>01</span><h3>Listening</h3><p>Practice section strategies, question patterns and focused listening.</p></article>
+            <article><span>02</span><h3>Reading</h3><p>Improve comprehension, speed and answer accuracy.</p></article>
+            <article><span>03</span><h3>Writing</h3><p>Learn task structure, planning and clearer response development.</p></article>
+            <article><span>04</span><h3>Speaking</h3><p>Build confidence for interview-style speaking tasks.</p></article>
+        </div>
+        {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note course-fee-note--center">The fee includes the applicable official test/exam fee.</p>{% endif %}
+    </div>
+</section>
+{% endblock %}

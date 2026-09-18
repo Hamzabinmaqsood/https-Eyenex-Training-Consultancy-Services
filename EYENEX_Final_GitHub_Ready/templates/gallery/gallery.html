@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block page_title %}Gallery | {{ site_name }}{% endblock %}
+{% block meta_description %}View photos from {{ site_name }} training sessions, student activities, and events.{% endblock %}
+{% block content %}
+<section class="page-hero page-hero--compact"><div class="container"><span class="eyebrow">Inside EYENEX</span><h1>Training, activities and institute moments.</h1><p>A look at learning sessions, seminars, student activities and institute updates.</p></div></section>
+<section class="section-padding"><div class="container"><div class="gallery-grid">{% for item in images %}<figure class="gallery-card"><img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy" decoding="async"><figcaption><h2>{{ item.title }}</h2>{% if item.description %}<p>{{ item.description }}</p>{% endif %}</figcaption></figure>{% empty %}<div class="empty-state"><h2>Gallery updates are coming soon.</h2><p>New training and activity photos will appear here as they are added.</p></div>{% endfor %}</div></div></section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block page_title %}About Us | {{ site_name }}{% endblock %}
+{% block meta_description %}Learn about {{ site_name }}, our mission, vision, and focus on practical safety, HSE, and career-focused training.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">About EYENEX</span>
+        <h1>Practical training for safer workplaces and stronger professional growth.</h1>
+        <p>EYENEX Trainings &amp; Consultancy supports students and professionals through career-focused training, exam preparation and professional guidance.</p>
+    </div>
+</section>
+
+<section class="section-padding about-story">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-7"><span class="eyebrow">Who we are</span><h2>Training built around useful, real-world understanding.</h2><p>EYENEX Trainings &amp; Consultancy provides practical learning for people building career-ready skills in safety, HSE, English-language preparation and professional development.</p><p>Our aim is to make training decisions clearer by showing course details openly, supporting learners before enrollment and keeping the learning experience focused on practical outcomes.</p></div>
+            <div class="col-lg-5"><div class="principles-card"><span class="eyebrow eyebrow--light">Our focus</span><ul><li>Practical safety and HSE training</li><li>Structured exam preparation</li><li>Career-focused skills development</li><li>Clear student guidance and support</li><li>Physical and online learning access</li></ul></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding section-surface">
+    <div class="container">
+        <div class="value-grid">
+            <article><span>Mission</span><h3>Make professional training practical and useful.</h3><p>Help students and professionals build relevant skills that support workplace performance and career progress.</p></article>
+            <article><span>Vision</span><h3>Become a trusted learning partner.</h3><p>Build a reputation for clear guidance, practical education and professional development across our training areas.</p></article>
+            <article><span>Values</span><h3>Clarity, professionalism and learner support.</h3><p>We value useful learning, honest course information, respectful support and continuous improvement.</p></article>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding"><div class="container"><div class="decision-cta"><div><span class="eyebrow">Your next step</span><h2>Explore a course or speak with our team.</h2></div><div class="d-flex flex-wrap gap-2"><a href="{% url 'courses:course_list' %}" class="btn btn-brand">Explore Courses</a><a href="{% url 'core:contact' %}" class="btn btn-outline-dark">Contact Us</a></div></div></div></section>
+{% endblock %}

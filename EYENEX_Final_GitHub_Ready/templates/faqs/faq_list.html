@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block page_title %}FAQs | {{ site_name }}{% endblock %}
+{% block meta_description %}Frequently asked questions about courses, admissions, and training at {{ site_name }}.{% endblock %}
+{% block content %}
+<section class="page-hero page-hero--compact"><div class="container"><span class="eyebrow">Help centre</span><h1>Frequently asked questions</h1><p>Clear answers about courses, appointments, applications and the training process.</p></div></section>
+<section class="section-padding"><div class="container"><div class="accordion" id="faqPageAccordion">{% for faq in faqs %}<div class="accordion-item"><h2 class="accordion-header" id="pageHeading{{ faq.id }}"><button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#pageCollapse{{ faq.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="pageCollapse{{ faq.id }}">{{ faq.question }}</button></h2><div id="pageCollapse{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#faqPageAccordion"><div class="accordion-body">{{ faq.answer|linebreaks }}</div></div></div>{% empty %}<div class="empty-state"><h2>No FAQs have been added yet.</h2></div>{% endfor %}</div><div class="decision-cta decision-cta--light mt-5"><div><span class="eyebrow">Still have a question?</span><h2>Send it directly to our team.</h2></div><a href="{% url 'core:contact' %}" class="btn btn-brand">Contact Us</a></div></div></section>
+{% endblock %}

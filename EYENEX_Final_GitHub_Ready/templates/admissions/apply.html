@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Apply Now | {{ site_name }}{% endblock %}
+{% block meta_description %}Apply now for training programs at {{ site_name }}. Submit your details and our admissions team will contact you.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--compact">
+    <div class="container">
+        <span class="eyebrow">Admissions</span>
+        <h1>Apply for your preferred training program.</h1>
+        <p>Tell us who you are, which course interests you and how you prefer to be contacted.</p>
+    </div>
+</section>
+
+<section class="section-padding form-page">
+    <div class="container">
+        <div class="form-page__layout">
+            <aside class="form-page__aside">
+                <span class="eyebrow">What happens next</span>
+                <h2>A clear, simple application process.</h2>
+                <ol class="mini-process">
+                    <li><span>01</span><div><strong>Submit your details</strong><p>Choose a listed course or enter the course you want.</p></div></li>
+                    <li><span>02</span><div><strong>Admissions follow-up</strong><p>Our team reviews your application and contacts you.</p></div></li>
+                    <li><span>03</span><div><strong>Complete enrollment</strong><p>Confirm course and enrollment details with the team.</p></div></li>
+                </ol>
+                <p class="aside-help">Need advice before applying? <a href="{% url 'core:contact' %}">Send an inquiry instead.</a></p>
+            </aside>
+
+            <div class="form-card-v2">
+                {% if messages %}{% for message in messages %}<div class="alert alert-success" role="status">{{ message }}</div>{% endfor %}{% endif %}
+                {% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{% for error in form.non_field_errors %}<p class="mb-0">{{ error }}</p>{% endfor %}</div>{% endif %}
+
+                <form method="POST" novalidate class="structured-form">
+                    {% csrf_token %}
+                    <fieldset class="form-section">
+                        <legend><span>01</span><div>Personal details<small>Required fields are marked with an asterisk.</small></div></legend>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label" for="{{ form.full_name.id_for_label }}">Full name <span>*</span></label>{{ form.full_name }}{% for error in form.full_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.father_name.id_for_label }}">Father's name</label>{{ form.father_name }}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.email.id_for_label }}">Email <span>*</span></label>{{ form.email }}{% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.phone.id_for_label }}">Phone <span>*</span></label>{{ form.phone }}{% for error in form.phone.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.whatsapp_number.id_for_label }}">WhatsApp number</label>{{ form.whatsapp_number }}{% for error in form.whatsapp_number.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.preferred_contact_method.id_for_label }}">Preferred contact method</label>{{ form.preferred_contact_method }}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.city.id_for_label }}">City <span>*</span></label>{{ form.city }}{% for error in form.city.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.country.id_for_label }}">Country <span>*</span></label>{{ form.country }}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section">
+                        <legend><span>02</span><div>Course preference<small>Select a course or tell us what you are looking for.</small></div></legend>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label" for="{{ form.course.id_for_label }}">Preferred course</label>{{ form.course }}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.course_interested.id_for_label }}">Course not listed?</label>{{ form.course_interested }}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-section form-section--last">
+                        <legend><span>03</span><div>Background &amp; notes<small>Optional details help us understand your training needs.</small></div></legend>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label" for="{{ form.education.id_for_label }}">Highest education</label>{{ form.education }}</div>
+                            <div class="col-md-6"><label class="form-label" for="{{ form.occupation.id_for_label }}">Occupation</label>{{ form.occupation }}</div>
+                            <div class="col-12"><label class="form-label" for="{{ form.message.id_for_label }}">Message</label>{{ form.message }}</div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-submit-row"><p>We’ll use these details only to respond to your application.</p><button type="submit" class="btn btn-brand btn-lg">Submit Application</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

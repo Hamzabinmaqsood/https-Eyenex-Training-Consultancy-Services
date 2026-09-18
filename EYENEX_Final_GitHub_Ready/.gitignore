@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django runtime data — never commit student/admin data
+/db.sqlite3
+*.log
+/staticfiles/
+
+# User uploads are private/runtime data. Only curated course artwork is versioned.
+/media/*
+!/media/courses/
+!/media/courses/**
+/private_media/
+/eyenex_private_media/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Deployment archives
+*.zip

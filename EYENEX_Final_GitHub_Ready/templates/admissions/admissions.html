@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Admissions | {{ site_name }}{% endblock %}
+{% block meta_description %}Learn how to apply for training programs at {{ site_name }}, from choosing a course to enrollment.{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--compact">
+    <div class="container">
+        <span class="eyebrow">Admissions</span>
+        <h1>A straightforward path from course selection to enrollment.</h1>
+        <p>Explore your options, ask questions when you need guidance, then submit your application when you’re ready.</p>
+    </div>
+</section>
+
+<section class="section-padding admissions-page">
+    <div class="container">
+        <div class="admissions-timeline">
+            <article><span>01</span><div><h2>Choose a course</h2><p>Review the catalogue and compare duration, mode and fee information.</p><a href="{% url 'courses:course_list' %}" class="text-link">Browse courses →</a></div></article>
+            <article><span>02</span><div><h2>Book an appointment if needed</h2><p>If you want guidance before applying, open the course page and submit an appointment request.</p></div></article>
+            <article><span>03</span><div><h2>Submit your application</h2><p>Complete the admissions form with your contact information and course preference.</p><a href="{% url 'admissions:apply' %}" class="text-link">Apply now →</a></div></article>
+            <article><span>04</span><div><h2>Complete enrollment</h2><p>The admissions team reviews your request, contacts you and confirms the remaining enrollment details.</p></div></article>
+        </div>
+
+        <div class="decision-cta decision-cta--light">
+            <div><span class="eyebrow">Ready?</span><h2>Submit your application today.</h2><p>If you still have a question, you can contact us before applying.</p></div>
+            <div class="d-flex flex-wrap gap-2"><a href="{% url 'admissions:apply' %}" class="btn btn-brand">Apply Now</a><a href="{% url 'core:contact' %}" class="btn btn-outline-dark">Contact Us</a></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
