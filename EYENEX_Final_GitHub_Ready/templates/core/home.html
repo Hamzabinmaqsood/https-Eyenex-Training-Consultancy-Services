@@ -1,9 +1,36 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block page_title %}{{ site_name }} | Safety, HSE & Career Training{% endblock %}
-{% block meta_description %}{{ site_name }} offers practical safety officer training, HSE guidance, IELTS preparation, and career-focused programs in physical and online formats.{% endblock %}
-{% block extra_head %}<link rel="preload" as="image" href="{% static 'images/hero/eyenex-hero-01-classroom.webp' %}" fetchpriority="high">{% endblock %}
+{% block page_title %}{{ site_name }} | NEBOSH, HSE &amp; IELTS Training in Rawalpindi{% endblock %}
+{% block meta_description %}{{ site_name }} in Rawalpindi offers practical HSE safety officer courses, NEBOSH IGC, IOSH, OSHA, IELTS preparation, and study abroad guidance online and on-campus.{% endblock %}
+{% block og_title %}{{ site_name }} | NEBOSH, HSE &amp; IELTS Training in Rawalpindi{% endblock %}
+{% block og_description %}{{ site_name }} in Rawalpindi offers practical HSE safety officer courses, NEBOSH IGC, IOSH, OSHA, IELTS preparation, and study abroad guidance online and on-campus.{% endblock %}
+{% block twitter_title %}{{ site_name }} | NEBOSH, HSE &amp; IELTS Training in Rawalpindi{% endblock %}
+{% block twitter_description %}{{ site_name }} in Rawalpindi offers practical HSE safety officer courses, NEBOSH IGC, IOSH, OSHA, IELTS preparation, and study abroad guidance online and on-campus.{% endblock %}
+
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static 'images/hero/eyenex-hero-01-classroom.webp' %}" fetchpriority="high">
+{% if faqs %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {% for faq in faqs %}
+        {
+            "@type": "Question",
+            "name": "{{ faq.question|escapejs }}",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "{{ faq.answer|striptags|escapejs }}"
+            }
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <section class="eyenex-hero" aria-labelledby="hero-title">
@@ -13,8 +40,8 @@
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container hero-container">
         <div class="hero-content">
-            <p class="hero-eyebrow"><span></span>Professional Training &amp; Consultancy</p>
-            <h1 id="hero-title" class="hero-heading">Build safer workplaces.<br><span>Build stronger careers.</span></h1>
+            <p class="hero-eyebrow"><span></span>Professional Training &amp; Consultancy in Rawalpindi</p>
+            <h1 id="hero-title" class="hero-heading">Build safer workplaces.<br><span>HSE, NEBOSH &amp; IELTS Training in Rawalpindi.</span></h1>
             <p class="hero-intro">Practical, career-focused training for students and professionals—delivered through physical and online learning options with clear guidance from inquiry to enrollment.</p>
             <div class="hero-actions">
                 <a href="{% url 'courses:course_list' %}" class="btn btn-brand hero-primary">Explore Courses <span aria-hidden="true">→</span></a>
