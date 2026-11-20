@@ -91,7 +91,7 @@
                 <div class="course-card-v2__body">
                     <div class="course-card-v2__topline">
                         {% if course.category %}<span class="course-card__category">{{ course.category.name }}</span>{% endif %}
-                        {% if course.fee %}<strong class="course-card-v2__price">{{ course.fee_display }}</strong>{% endif %}
+                        {% if course.fee_display %}<strong class="course-card-v2__price">{{ course.fee_display }}</strong>{% endif %}
                     </div>
                     <h2><a href="{% url 'courses:course_detail' course.slug %}">{{ course.title }}</a></h2>
                     <p>{{ course.short_description }}</p>
@@ -100,7 +100,7 @@
                         <div><dt>Mode</dt><dd>{{ course.get_delivery_mode_display }}</dd></div>
                         <div><dt>Level</dt><dd>{{ course.get_level_display }}</dd></div>
                     </dl>
-                    {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
+                    {% if course.official_test_fee_included and course.fee_display %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
                     <div class="course-card-v2__actions">
                         <a href="{% url 'courses:course_detail' course.slug %}" class="btn btn-outline-dark">View details</a>
                         <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand">Book Appointment</a>
