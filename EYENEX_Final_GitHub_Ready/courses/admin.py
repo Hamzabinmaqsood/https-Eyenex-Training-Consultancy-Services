@@ -16,7 +16,7 @@ class CourseAdmin(admin.ModelAdmin):
         'title',
         'category',
         'duration',
-        'fee',
+        'fee_range',
         'appointment_fee',
         'delivery_mode',
         'level',
@@ -36,7 +36,7 @@ class CourseAdmin(admin.ModelAdmin):
             'fields': ('category', 'title', 'slug', 'short_description', 'description'),
         }),
         ('Course Information', {
-            'fields': ('duration', 'delivery_mode', 'fee', 'official_test_fee_included', 'appointment_fee', 'level', 'image'),
+            'fields': ('duration', 'delivery_mode', ('fee', 'fee_max'), 'official_test_fee_included', 'appointment_fee', 'level', 'image'),
         }),
         ('Publishing', {
             'fields': ('is_featured', 'is_active', 'display_order'),
@@ -46,3 +46,7 @@ class CourseAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+    @admin.display(description='Fee')
+    def fee_range(self, obj):
+        return obj.fee_display or '—'
