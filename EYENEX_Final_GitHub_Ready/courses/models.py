@@ -75,7 +75,15 @@ class Course(models.Model):
         null=True,
         blank=True,
         validators=[MinValueValidator(Decimal('0.00'))],
-        help_text='Full course fee in PKR.',
+        help_text='Single course fee or starting fee in PKR. Leave both fee fields empty to hide price.',
+    )
+    fee_max = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal('0.00'))],
+        help_text='Optional maximum fee in PKR for ranged pricing (e.g. 45000 for PKR 30,000 – 45,000).',
     )
     official_test_fee_included = models.BooleanField(
         default=False,
@@ -121,9 +129,12 @@ class Course(models.Model):
 
     @property
     def fee_display(self):
-        if self.fee is None:
+        if self.fee is None and self.fee_max is None:
             return ''
-        return f'PKR {self.fee:,.0f}'
+        if self.fee is not None and self.fee_max is not None and self.fee_max > self.fee:
+            return f'PKR {self.fee:,.0f} – {self.fee_max:,.0f}'
+        amount = self.fee if self.fee is not None else self.fee_max
+        return f'PKR {amount:,.0f}'
 
     @property
     def appointment_fee_display(self):
