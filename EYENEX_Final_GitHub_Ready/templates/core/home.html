@@ -111,9 +111,9 @@
                     <dl class="featured-course-card__meta">
                         {% if course.duration %}<div><dt>Duration</dt><dd>{{ course.duration }}</dd></div>{% endif %}
                         <div><dt>Mode</dt><dd>{{ course.get_delivery_mode_display }}</dd></div>
-                        {% if course.fee %}<div><dt>Fee</dt><dd>{{ course.fee_display }}</dd></div>{% endif %}
+                        {% if course.fee_display %}<div><dt>Fee</dt><dd>{{ course.fee_display }}</dd></div>{% endif %}
                     </dl>
-                    {% if course.official_test_fee_included and course.fee %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
+                    {% if course.official_test_fee_included and course.fee_display %}<p class="course-fee-note">Official test/exam fee included where applicable.</p>{% endif %}
                     <div class="featured-course-card__actions">
                         <a href="{% url 'courses:course_detail' course.slug %}" class="text-link">View details <span aria-hidden="true">→</span></a>
                         <a href="{% url 'admissions:course_appointment' course.slug %}" class="btn btn-brand btn-sm">Book Appointment</a>
